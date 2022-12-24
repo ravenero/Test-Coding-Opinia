@@ -21,7 +21,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 // Components
 import Lists from '../../components/Lists';
 
-const DetailProfile = () => {
+const DetailProfile = props => {
   const data = useSelector(state => state.listReducer);
 
   return (
@@ -33,7 +33,7 @@ const DetailProfile = () => {
           {/* Header */}
           <View style={styles.header}>
             <View style={{flexDirection: 'row'}}>
-              <TouchableOpacity>
+              <TouchableOpacity onPress={() => props.navigation.goBack()}>
                 <View>
                   <Ionicons name="arrow-back-outline" size={24} color={BLACK} />
                 </View>

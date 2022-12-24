@@ -1,10 +1,15 @@
 import React, {Component} from 'react';
+import LinearGradient from 'react-native-linear-gradient';
 import {
   View,
   FlatList,
   ImageBackground,
   SafeAreaView,
   StyleSheet,
+  Text,
+  Dimensions,
+  TouchableOpacity,
+  ScrollView,
 } from 'react-native';
 
 // Redux
@@ -17,44 +22,61 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Lists from '../../components/Lists';
 
 // Utils
-import {TRANSPARENT} from '../../utils/color';
+import {BLACK, PRIMARY, TRANSPARENT, WHITE} from '../../utils/color';
 
-const Followers = () => {
+const width = Dimensions.get('window').width;
+
+const Followers = props => {
   const data = useSelector(state => state.listReducer);
 
   return (
     <SafeAreaView style={styles.container}>
-      <ImageBackground
-        source={require('../../assets/img/bg.png')}
-        style={styles.bg}>
-        <View>
-          {/* Header */}
-          {/* <View>
-        <View style={{flexDirection: 'row'}}>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <ImageBackground
+          source={require('../../assets/img/bg.png')}
+          style={styles.bg}>
           <View>
-            <Ionicons name="menu-outline" />
-          </View>
-          <Text style={{alignItems: 'center'}}>Profile</Text>
-        </View>
-      </View> */}
-          {/* End Header */}
+            {/* Header */}
+            <LinearGradient
+              colors={[PRIMARY, '#006C90']}
+              start={{x: 0, y: 0}}
+              end={{x: 1, y: 0}}>
+              <View style={{padding: 12}}>
+                <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                  <View>
+                    <TouchableOpacity onPress={() => props.navigation.goBack()}>
+                      <Ionicons
+                        name="arrow-back-outline"
+                        color={WHITE}
+                        size={22}
+                      />
+                    </TouchableOpacity>
+                  </View>
+                  <View style={styles.contentHeader}>
+                    <Text style={styles.textHeader}>Pengikut</Text>
+                  </View>
+                </View>
+              </View>
+            </LinearGradient>
+            {/* End Header */}
 
-          {/* Content */}
-          <View>
-            <View style={{marginHorizontal: 12}}>
-              <FlatList
-                data={data}
-                showsVerticalScrollIndicator={false}
-                keyExtractor={item => item.id}
-                renderItem={({item}) => (
-                  <Lists name={item.name} img={item.img} status="Ikuti" />
-                )}
-              />
+            {/* Content */}
+            <View style={{marginBottom: 12}}>
+              <View style={{marginHorizontal: 12}}>
+                <FlatList
+                  data={data}
+                  showsVerticalScrollIndicator={false}
+                  keyExtractor={item => item.id}
+                  renderItem={({item}) => (
+                    <Lists name={item.name} img={item.img} status="Ikuti" />
+                  )}
+                />
+              </View>
             </View>
+            {/* End Content */}
           </View>
-          {/* End Content */}
-        </View>
-      </ImageBackground>
+        </ImageBackground>
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -69,6 +91,17 @@ const styles = StyleSheet.create({
     flex: 1,
     width: null,
     height: null,
+  },
+
+  textHeader: {
+    fontSize: 15,
+    fontWeight: '500',
+    color: WHITE,
+  },
+
+  contentHeader: {
+    width: width * 0.8,
+    alignItems: 'center',
   },
 });
 
